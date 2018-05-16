@@ -1,0 +1,481 @@
+﻿<UserControl
+    x:Class="STARS.Applications.VETS.Plugins.VTS.UI.Views.Home.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attachableProperties="clr-namespace:STARS.Applications.UI.Common.AttachableProperties;assembly=STARS.Applications.UI.Common"
+    xmlns:controls="clr-namespace:STARS.Applications.UI.Common.Controls;assembly=STARS.Applications.UI.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:home="clr-namespace:STARS.Applications.VETS.Plugins.VTS.UI.ViewModels.Home"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:STARS.Applications.VETS.Plugins.VTS.UI.ViewModels"
+    d:DataContext="{d:DesignInstance home:HomeViewModel}"
+    ResxExtension.DefaultResxName="STARS.Applications.VETS.Plugins.VTS.UI.Properties.Resources"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <ScrollViewer Style="{DynamicResource NuclearScrollViewerInside}">
+        <Grid x:Name="LayoutRoot">
+            <Grid x:Name="Overlay" Panel.ZIndex="1000" Visibility="{Binding IsOverlayVisible}">
+                <Grid.Background>
+                    <SolidColorBrush Color="#000000" Opacity=".35"/>
+                </Grid.Background>
+                <StackPanel VerticalAlignment="Top" Margin="500,0,0,0">
+                    <DockPanel Background="#E0E0E0" Width="400" Height="25" HorizontalAlignment="Left" Margin="0,250,0,0">
+                        <TextBlock
+					        HorizontalAlignment="Left"
+					        Margin="5,0,0,0"
+					        VerticalAlignment="Center"
+					        FontSize="12"
+					        FontWeight="Bold"
+					        Text="Save As" />
+                    </DockPanel>
+                    <DockPanel Background="#EEEEEE" Width="400" Height="40" HorizontalAlignment="Left" Margin="0,0,0,0">
+                        <DockPanel Width="100">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                Margin="15,5,5,5"
+                                VerticalAlignment="Center"
+                                Foreground="Black"
+                                Text="Test Name" />
+                        </DockPanel>
+                        <DockPanel Width="260">
+                            <TextBox
+                                HorizontalAlignment="Center"
+                                Margin="5,5,15,5"
+                                Padding="4"
+                                Width="250"
+                                IsEnabled="{Binding NewTestEnabled}"
+                                Text="{Binding NewTestName, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                        <DockPanel Width="40">
+                            <CheckBox IsChecked="{Binding NewTestEnabled}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                        </DockPanel>
+                    </DockPanel>
+                    <DockPanel Background="#EEEEEE" Width="400" Height="40" HorizontalAlignment="Left" Margin="0,0,0,0">
+                        <DockPanel Width="100">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                Margin="15,5,5,5"
+                                VerticalAlignment="Center"
+                                Foreground="Black"
+                                Text="Fuel Name" />
+                        </DockPanel>
+                        <DockPanel Width="260">
+                            <TextBox
+                                HorizontalAlignment="Center"
+                                Margin="5,5,15,5"
+                                Padding="4"
+                                Width="250"
+                                IsEnabled="{Binding NewFuelEnabled}"
+                                Text="{Binding NewFuelName, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                        <DockPanel Width="40">
+                            <CheckBox IsChecked="{Binding NewFuelEnabled}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                        </DockPanel>
+                    </DockPanel>
+                    <DockPanel Background="#EEEEEE" Width="400" Height="40" HorizontalAlignment="Left" Margin="0,0,0,0">
+                        <DockPanel Width="100">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                Margin="15,5,5,5"
+                                VerticalAlignment="Center"
+                                Foreground="Black"
+                                Text="Vehicle Name" />
+                        </DockPanel>
+                        <DockPanel Width="260">
+                            <TextBox
+                                HorizontalAlignment="Center"
+                                Margin="5,5,15,5"
+                                Padding="4"
+                                Width="250"
+                                IsEnabled="{Binding NewVehicleEnabled}"
+                                Text="{Binding NewVehicleName, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                        <DockPanel Width="40">
+                            <CheckBox IsChecked="{Binding NewVehicleEnabled}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                        </DockPanel>
+                    </DockPanel>
+                    <DockPanel Background="#FFFFFF" Width="400" Height="40" HorizontalAlignment="Left" Margin="0,0,0,0">
+                        <DockPanel Width="200">
+                            <Button Click="SaveResources" Width="75" Height="25" HorizontalAlignment="Right" Margin="0,0,5,0">
+                                Save
+                            </Button>
+                        </DockPanel>
+                        <DockPanel Width="200">
+                            <Button Click="CancelSave" Width="75" Height="25" HorizontalAlignment="Left" Margin="5,0,0,0">
+                                Cancel
+                            </Button>
+                        </DockPanel>
+                    </DockPanel>
+                </StackPanel>
+                <!-- Add controls as needed -->
+            </Grid>
+            <ContentControl Focusable="False" Style="{DynamicResource PanelAnySizeStyle}">
+                <ItemsControl Focusable="False">
+                    <!--  Filters  -->
+                    <HeaderedContentControl
+                        Header="{Resx Filters}"
+                        Style="{DynamicResource HeaderedPanelAnySizeStyle}"
+                        Visibility="Collapsed">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ListView
+                                MinWidth="400"
+                                MaxHeight="164"
+                                Margin="5"
+                                ItemContainerStyle="{DynamicResource PanelLikeListViewItemStyleDefault}"
+                                ItemsSource="{Binding FiltersModel.Filters}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                SelectedItem="{Binding FiltersModel.SelectedFilter.Value, Mode=TwoWay}">
+                                <ListView.View>
+                                    <GridView ColumnHeaderContainerStyle="{DynamicResource GridViewHeaderNoHover}">
+                                        <!--  Property name  -->
+                                        <GridViewColumn Width="200">
+                                            <GridViewColumn.Header>
+                                                <GridViewColumnHeader
+                                                    Margin="5,0"
+                                                    HorizontalContentAlignment="Left"
+                                                    VerticalContentAlignment="Center"
+                                                    Content="{Resx ResxName=STARS.Applications.VETS.Plugins.VTS.UI.Properties.Resources,
+                                                                   Key=PropertyName}" />
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate DataType="filters:FilterModel">
+                                                    <TextBox
+                                                        Margin="5,2"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Top"
+                                                        Text="{Binding Property.Value}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <!--  Value  -->
+                                        <GridViewColumn Width="200">
+                                            <GridViewColumn.Header>
+                                                <GridViewColumnHeader
+                                                    Margin="5,0"
+                                                    HorizontalContentAlignment="Left"
+                                                    VerticalContentAlignment="Center"
+                                                    Content="{Resx ResxName=STARS.Applications.VETS.Plugins.VTS.UI.Properties.Resources,
+                                                                   Key=Value}" />
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate DataType="filters:FilterModel">
+                                                    <TextBox
+                                                        Margin="5,2"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Top"
+                                                        Text="{Binding Value.Value}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <StackPanel
+                                Grid.Column="1"
+                                Margin="8"
+                                VerticalAlignment="Top">
+                                <Button
+                                    Width="80"
+                                    Margin="8"
+                                    Padding="4"
+                                    Command="{Binding FiltersModel.AddFilterCommand}"
+                                    Content="{Resx Add}" />
+                                <Button
+                                    Width="80"
+                                    Margin="8"
+                                    Padding="4"
+                                    Command="{Binding FiltersModel.DeleteFilterCommand}"
+                                    Content="{Resx Delete}" />
+                                <!--<Button Margin="8"
+                            Width="80"
+                            Padding="4"
+                            Content="Copy"
+                            Command="{Binding CopyCommand}" />
+                        <Button Margin="8"
+                            Width="80"
+                            Padding="4"
+                            Content="Paste"
+                            Command="{Binding PasteCommand}" />-->
+                            </StackPanel>
+                        </Grid>
+                    </HeaderedContentControl>
+
+                    <!--  TestList Buttons  -->
+                    <DockPanel>
+                        <Button
+                            Command="{Binding Command}"
+                            DataContext="{Binding GetTestListCommand}"
+                            Style="{DynamicResource WorkAreaCommandButtonStyle}" />
+                        <Button
+                            Name= "ShowTestProperties"
+                            Command="{Binding Command}"
+                            DataContext="{Binding ShowTestPropertiesCommand}"
+                            Style="{DynamicResource WorkAreaCommandButtonStyle}" />
+                        <Button
+                            Command="{Binding Command}"
+                            DataContext="{Binding RunTestCommand}"
+                            Style="{DynamicResource WorkAreaCommandButtonStyle}" />
+                        <Button
+                            Name= "SaveAsNewResource"
+                            Command="{Binding Command}"
+                            DataContext="{Binding SaveAsNewResourcesCommand}"
+                            Style="{DynamicResource WorkAreaCommandButtonStyle}" 
+                            Visibility="Hidden"/>
+                        <Button
+                            Name= "ControlSaveAs"
+                            Command="{Binding Command}"
+                            DataContext="{Binding ControlSaveAsCommand}"
+                            Style="{DynamicResource WorkAreaCommandButtonStyle}" 
+                            HorizontalAlignment="Right" 
+                            Margin="0,0,20,0"/>
+                    </DockPanel>
+
+                    <!--  Login Warning  -->
+                    <StackPanel Name="NameGetPopup" Orientation="Horizontal" Visibility="Collapsed">
+                        <TextBlock
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            Foreground="Red"
+                            Text="{Resx NeedToLogin}" />
+                        <Button
+                            Margin="5"
+                            Padding="4"
+                            Command="{Binding LoginCommand}"
+                            Content="{Resx Login}" />
+                    </StackPanel>
+
+
+
+                    <!--  TestList  -->
+                    <controls:ASyncListView
+                        Name="GridViewElement"
+                        Margin="5"
+                        attachableProperties:SortBehavior.CanUserSortColumns="True"
+                        attachableProperties:SortBehavior.SortSettings="{Binding SortSettings, Mode=OneWay}"
+                        BorderThickness="0"
+                        ItemContainerStyle="{DynamicResource PanelLikeListViewItemStyleDefault}"
+                        MouseDoubleClick="MouseDoubleClickHandler"
+                        ItemsSource="{Binding TestList}"
+                        SelectedItem="{Binding SelectedTest.Value}">
+                        <controls:ASyncListView.View>
+                            <GridView ColumnHeaderContainerStyle="{DynamicResource GridViewSortHeaderContainerStyle}" ColumnHeaderTemplate="{DynamicResource GridViewSortHeader}">
+                                <!--  TestCell  -->
+                                <GridViewColumn Width="170" attachableProperties:SortBehavior.SortExpression="TestCell">
+                                    <GridViewColumn.Header>
+                                        <GridViewColumnHeader
+                                            Margin="5,0"
+                                            HorizontalContentAlignment="Left"
+                                            VerticalContentAlignment="Center"
+                                            Content="Test Cell" />
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Margin="5,2"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding TestCell}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <!--  Test ID  -->
+                                <GridViewColumn Width="170" attachableProperties:SortBehavior.SortExpression="TestIDNumber">
+                                    <GridViewColumn.Header>
+                                        <GridViewColumnHeader
+                                            Margin="5,0"
+                                            HorizontalContentAlignment="Left"
+                                            VerticalContentAlignment="Center"
+                                            Content="Test ID" />
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Margin="5,2"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding TestIDNumber}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <!--  Vehicle ID  -->
+                                <GridViewColumn Width="170" attachableProperties:SortBehavior.SortExpression="VehicleID">
+                                    <GridViewColumn.Header>
+                                        <GridViewColumnHeader
+                                            Margin="5,0"
+                                            HorizontalContentAlignment="Left"
+                                            VerticalContentAlignment="Center"
+                                            Content="Vehicle ID" />
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Margin="5,2"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding VehicleID}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <!--  Project ID  -->
+                                <GridViewColumn Width="170" attachableProperties:SortBehavior.SortExpression="ProjectID">
+                                    <GridViewColumn.Header>
+                                        <GridViewColumnHeader
+                                            Margin="5,0"
+                                            HorizontalContentAlignment="Left"
+                                            VerticalContentAlignment="Center"
+                                            Content="Project ID" />
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Margin="5,2"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding ProjectID}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <!--  Test Type Code  -->
+                                <GridViewColumn Width="170" attachableProperties:SortBehavior.SortExpression="TestTypeCode">
+                                    <GridViewColumn.Header>
+                                        <GridViewColumnHeader
+                                            Margin="5,0"
+                                            HorizontalContentAlignment="Left"
+                                            VerticalContentAlignment="Center"
+                                            Content="Test Type Code" />
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Margin="5,2"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding TestTypeCode}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <!--  Priority  -->
+                                <GridViewColumn Width="170" attachableProperties:SortBehavior.SortExpression="Priority">
+                                    <GridViewColumn.Header>
+                                        <GridViewColumnHeader
+                                            Margin="5,0"
+                                            HorizontalContentAlignment="Left"
+                                            VerticalContentAlignment="Center"
+                                            Content="Priority" />
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Margin="5,2"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Priority}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <!--  Modification Date  -->
+                                <GridViewColumn Width="300" attachableProperties:SortBehavior.SortExpression="ModificationDate">
+                                    <GridViewColumn.Header>
+                                        <GridViewColumnHeader
+                                            Margin="5,0"
+                                            HorizontalContentAlignment="Left"
+                                            VerticalContentAlignment="Center"
+                                            Content="Modification Date" />
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Margin="5,2"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding ModificationDate}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </controls:ASyncListView.View>
+                    </controls:ASyncListView>
+                    <!--  Debug area  -->
+                    <HeaderedContentControl
+                        Header="{Resx Details}"
+                        Style="{DynamicResource HeaderedPanelAnySizeStyle}"
+                        Visibility="{Binding IsDebugAreaVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ItemsControl>
+                            <ListView
+                                MaxHeight="175"
+                                Margin="5"
+                                HorizontalAlignment="Left"
+                                BorderThickness="0"
+                                ItemContainerStyle="{DynamicResource PanelLikeListViewItemStyleDefault}"
+                                ItemsSource="{Binding TestProperties4Debug}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                ScrollViewer.VerticalScrollBarVisibility="Visible">
+                                <ListView.View>
+                                    <GridView ColumnHeaderContainerStyle="{DynamicResource GridViewHeaderNoHover}">
+                                        <!--  Resource type  -->
+                                        <GridViewColumn Width="100">
+                                            <GridViewColumn.Header>
+                                                <GridViewColumnHeader
+                                                    Margin="5,0"
+                                                    HorizontalContentAlignment="Left"
+                                                    VerticalContentAlignment="Center"
+                                                    Content="{Resx ResxName=STARS.Applications.VETS.Plugins.VTS.UI.Properties.Resources,
+                                                                   Key=ResourceType}" />
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate DataType="viewModels:ResourcePropertyModel">
+                                                    <TextBlock
+                                                        Margin="5,2"
+                                                        VerticalAlignment="Center"
+                                                        Text="{Binding ResourceType}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <!--  Property name  -->
+                                        <GridViewColumn Width="150">
+                                            <GridViewColumn.Header>
+                                                <GridViewColumnHeader
+                                                    Margin="5,0"
+                                                    HorizontalContentAlignment="Left"
+                                                    VerticalContentAlignment="Center"
+                                                    Content="{Resx ResxName=STARS.Applications.VETS.Plugins.VTS.UI.Properties.Resources,
+                                                                   Key=PropertyName}" />
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate DataType="viewModels:ResourcePropertyModel">
+                                                    <TextBlock
+                                                        Margin="5,2"
+                                                        VerticalAlignment="Center"
+                                                        Text="{Binding Key}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <!--  Property value  -->
+                                        <GridViewColumn Width="450">
+                                            <GridViewColumn.Header>
+                                                <GridViewColumnHeader
+                                                    Margin="5,0"
+                                                    HorizontalContentAlignment="Left"
+                                                    VerticalContentAlignment="Center"
+                                                    Content="{Resx ResxName=STARS.Applications.VETS.Plugins.VTS.UI.Properties.Resources,
+                                                                   Key=Value}" />
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate DataType="viewModels:ResourcePropertyModel">
+                                                    <TextBlock
+                                                        Margin="5,2"
+                                                        VerticalAlignment="Center"
+                                                        Text="{Binding Value}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ItemsControl>
+                    </HeaderedContentControl>
+                </ItemsControl>
+            </ContentControl>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

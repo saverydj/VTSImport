@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="STARS.Applications.VETS.Plugins.VTS.UI.Views.Widgets.ToolsWidgetViews.Maximized"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             ResxExtension.DefaultResxName="STARS.Applications.VETS.Plugins.Enterprise.TestEditor.Properties.Resources"
+             >
+
+    <ItemsControl Grid.Row="1" TextElement.FontSize="14">
+        <Button Style="{DynamicResource ExplorerButtonStyle}" Command="{Binding UITestExecution.StartCommand,Mode=OneTime}" Margin="4" HorizontalContentAlignment="Left">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Margin="4" Source="/STARS.Applications.VETS.UI;component/Images/32/Run.png"/>
+                <TextBlock Grid.Column="1" Text="{Resx String_RunTest}" />
+            </Grid>
+        </Button>
+        <Button Style="{DynamicResource ExplorerButtonStyle}" Command="{Binding UITestExecution.StartPreconCommand,Mode=OneTime}" Margin="4" HorizontalContentAlignment="Left">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Margin="4" Source="/STARS.Applications.VETS.UI;component/Images/32/Run.png"/>
+                <TextBlock Grid.Column="1" Text="{Resx String_RunPrecon}" />
+            </Grid>
+        </Button>
+        <!--
+        <Button Style="{DynamicResource ExplorerButtonStyle}" Command="{Binding UITestExecution.RestartCommand,Mode=OneTime}" Margin="4" HorizontalContentAlignment="Left">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Margin="4" Source="/STARS.Applications.VETS.UI;component/Images/32/ReRun.png"/>
+                <TextBlock Grid.Column="1" Text="{Resx String_RunRetest}" />
+            </Grid>
+        </Button>
+        -->
+    </ItemsControl>
+
+</UserControl>
